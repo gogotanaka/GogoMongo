@@ -1,5 +1,15 @@
 require "gogo_mongo/version"
 
-module GogoMongo
-  # Your code goes here...
+class GogoMongo
+  require 'mongo'
+
+  def client
+    @_client = Mongo::Connection.new
+  end
+
+  class ::Mongo::DB
+    def method_missing(method, *args, &block)
+      send(:[], method)
+    end
+  end
 end
